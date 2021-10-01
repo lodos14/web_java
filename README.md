@@ -187,7 +187,7 @@ ex) "JAVA APT 507" "15.0" 를 입력하면 args = \[ "JAVA APT 507", "15.0"]
       System.out.println(id)  // JAVA APT 507
       System.out.println(value)  // 15.0
     }
-    
+   
 Run Configurations에 있는 프로그램 이름들은 파일 이름이 아니라 실행 이름이므로 <br>
 arguments를 다르게 입력한 실행 프로그램을 변수 값을 이름에 추가해 여러개 만들고 리스트에 추가해서 편리하게 사용할 수 있다.
 
@@ -198,3 +198,30 @@ GUI 형태로 사용자 입력을 받을 수 있다.
     String id = JOptionPane.showInputDialog("Enter a ID"); // 데이터 타입은 String로 입력된다.
 
 ![사용자입력](https://user-images.githubusercontent.com/81665608/135511231-fc2fae95-cd11-4532-b4bf-2f458bbe2891.png)
+
+
+
+## 8. 컴파일
+
+개발도구를 거치지 않고 컴파일 하는 방법
+
+1. cmd
+2. java 파일 경로 이동
+3. javac 파일명.java
+
+파일 실행은 java 파일명을 입력
+
+## 9. 인스턴스
+
+클래스의 현재 생성된 오브젝트를 가리킨다.
+
+        PrintWriter p1 = new PrintWriter("result1.txt");  //  p1 이라는 새로운 인스턴스 생성
+        p1.write("Hello 1");
+        p1.close();
+
+        PrintWriter p2 = new PrintWriter("result2.txt");  // p2 라는 새로운 인스턴스 생성
+        p2.write("Hello 2");
+        p2.close();
+        
+이것의 쉬운 사용 예로는 사람의 이름, 몸무게, 키 등의 인적 사항을 가진 객체의 생성이 있다.
+
