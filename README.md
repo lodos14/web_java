@@ -199,7 +199,65 @@ GUI 형태로 사용자 입력을 받을 수 있다.
 
 ![사용자입력](https://user-images.githubusercontent.com/81665608/135511231-fc2fae95-cd11-4532-b4bf-2f458bbe2891.png)
 
+## 8. 제어문
 
+### 8.1 Boolean data type
+<strong>true</strong>, <strong>false</strong> (참, 거짓)
+
+contains()
+
+    String foo = "Hello world";		
+    System.out.println(foo.contains("world"));  // true
+    System.out.println(foo.contains("dog")); // false
+
+### 8.2 비교연산자
+>, <, ==, <=, >=, != <br>
+
+    System.out.println(1 > 1); // false
+    System.out.println(1 == 1); // true
+    System.out.println(1 < 1); // false
+    System.out.println(1 >= 1); // true
+    System.out.println(1 <= 1); // true
+    System.out.println(1 != 1); // false
+    
+문자열은  == 대신에 equals를 사용한다.
+    
+    String name = "dog";
+    String inputName = JOptionPane.showInputDialog("Enter a Name");
+
+    System.out.println("Hi");
+    
+    if(inputName.equals(name)) {
+        System.out.println("Master!");
+    } else {
+        System.out.println("Who are you?");
+    }
+ 
+문자열에 대한 비교는 여러가지가 있으므로 찾아볼것
+
+### 8.3 AND, OR, NOT
+
+AND : 두 개의 대상이 모두 true면 true, 그 외는 false <br>
+OR : 두 개의 대상 중 하나라도 true면 true 모두 false면 false <br>
+NOT : !true = false, !false = true  
+
+AND : && <br>
+OR : || <br>
+NOT : !
+
+    String name = "dog";
+    String inputName = JOptionPane.showInputDialog("Enter a Name");
+
+    String pass = "1111";
+    String inputPass = JOptionPane.showInputDialog("Enter a Pass");
+
+    System.out.println("Hi");
+
+    if(inputName.equals(name) && inputPass.equals(pass)) {
+        System.out.println("Master!");
+    } else {
+        System.out.println("Who are you?");
+    }
 
 ## 8. 컴파일
 
@@ -215,13 +273,13 @@ GUI 형태로 사용자 입력을 받을 수 있다.
 
 클래스의 현재 생성된 오브젝트를 가리킨다.
 
-        PrintWriter p1 = new PrintWriter("result1.txt");  //  p1 이라는 새로운 인스턴스 생성
-        p1.write("Hello 1");
-        p1.close();
+    PrintWriter p1 = new PrintWriter("result1.txt");  //  p1 이라는 새로운 인스턴스 생성
+    p1.write("Hello 1");
+    p1.close();
 
-        PrintWriter p2 = new PrintWriter("result2.txt");  // p2 라는 새로운 인스턴스 생성
-        p2.write("Hello 2");
-        p2.close();
+    PrintWriter p2 = new PrintWriter("result2.txt");  // p2 라는 새로운 인스턴스 생성
+    p2.write("Hello 2");
+    p2.close();
         
 이것의 쉬운 사용 예로는 사람의 이름, 몸무게, 키 등의 인적 사항을 가진 객체의 생성이 있다.
 
