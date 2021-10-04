@@ -211,7 +211,7 @@ contains()
     System.out.println(foo.contains("dog")); // false
 
 ### 8.2 비교연산자
->, <, ==, <=, >=, != <br>
+\>, <, ==, <=, >=, != <br>
 
     System.out.println(1 > 1); // false
     System.out.println(1 == 1); // true
