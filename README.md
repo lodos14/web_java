@@ -259,7 +259,104 @@ NOT : !
         System.out.println("Who are you?");
     }
 
-## 8. 컴파일
+### 8.4 반복문
+
+while : 보통 무한 
+ 
+    System.out.println("=== while ===");
+    int i = 0;		
+    while(i < 3) {
+        System.out.println(2);
+        System.out.println(3);
+        i++;
+    }
+    
+for : 정해진 횟수에 사용
+
+    System.out.println("=== for ===");
+    for(int j = 0; j < 3; j++) {
+        System.out.println(2);
+        System.out.println(3);
+    }
+    
+### 8.5 배열
+
+반복적으로 처리할 때 사용하는 데이터 형태
+
+    String[] users = new String[3];	   // 배열의 타입과 공간 먼저 선언하는 경우
+    users[0] = "kim";
+    users[1] = "pack";
+    users[2] = "oh";
+
+    System.out.println(users[1]); // pack
+    System.out.println(users.length); // 3
+
+    int[] scores = {10, 100, 100};  // 한번에 데이터까지 선언하는 경우
+    System.out.println(scores[1]);  // 100
+    System.out.println(scores.length); // 3
+ 
+반복문과의 활용
+
+    String[] users = new String[3];
+    users[0] = "kim";
+    users[1] = "pack";
+    users[2] = "oh";
+
+    for (int i = 0; i < users.length; i++) {   // 배열의 길이만큼 반복
+        System.out.println("<li>"+users[i]+"</li>");
+    }
+
+### 8.5 제어문 종합 예제
+
+사용자 입력과 유저 배열을 활용한 예제
+
+    String[] users = {"kim", "pack", "oh"};		
+    String inputId = JOptionPane.showInputDialog("Enter a ID");
+
+    boolean isLogined = false;
+    for(int i= 0; i < users.length; i++) {
+        String currentId = users[i];
+        if(currentId.equals(inputId)) {
+            isLogined = true;
+            break;
+        }
+    }
+
+    System.out.println("Hi");
+    if(isLogined) {
+        System.out.println("Master!!");
+    } else {
+        System.out.println("Who are you?");
+    }
+    
+이중배열을 활용한 Passward 추가
+
+    // String[] users = {"kim", "pack", "oh"};
+    String[][] users = {
+            {"kim", "1111"},
+            {"pack", "2222"},
+            {"oh", "3333"}
+    };
+    String inputId = JOptionPane.showInputDialog("Enter a ID");
+    String inputPass = JOptionPane.showInputDialog("Enter a Pass");
+
+    boolean isLogined = false;
+    for(int i= 0; i < users.length; i++) {
+        String[] current = users[i];
+        if(current[0].equals(inputId) && current[1].equals(inputPass)) {
+            isLogined = true;
+            break;
+        }
+    }
+
+    System.out.println("Hi");
+    if(isLogined) {
+        System.out.println("Master!!");
+    } else {
+        System.out.println("Who are you?");
+    }
+
+## 9. 컴파일
 
 개발도구를 거치지 않고 컴파일 하는 방법
 
@@ -269,7 +366,7 @@ NOT : !
 
 파일 실행은 java 파일명을 입력
 
-## 9. 인스턴스
+## 10. 인스턴스
 
 클래스의 현재 생성된 오브젝트를 가리킨다.
 
