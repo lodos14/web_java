@@ -356,7 +356,211 @@ for : 정해진 횟수에 사용
         System.out.println("Who are you?");
     }
 
-## 9. 컴파일
+## 9. Method
+
+특정 기능을 하는 코드의 집합 
+
+### 9.1 기본형태
+
+    public static void printTwoTimesA() {
+        System.out.println("-");
+        System.out.println("a");
+        System.out.println("a");
+    }
+
+### 9.2 함수의 입력
+
+    public static void main(String[] args) {
+
+                      // 인자, argument
+        printTwoTimesA("a", "-");
+        printTwoTimesA("a", "*");
+        printTwoTimesA("a", "&");
+        printTwoTimesA("b", "!");
+        
+    }
+                                     // 매개변수, parameter
+    public static void printTwoTimesA(String text, String delimiter) {
+        System.out.println(delimiter);
+        System.out.println(text);
+        System.out.println(text);
+    }
+ 
+### 9.3 함수의 출력
+
+    public static String a() {
+        return "a";
+    }
+    public static int one() {
+        return 1;
+    }
+    public static void main(String[] args) {
+
+        System.out.println(a());  // a
+        System.out.println(one()); // 1
+
+    }
+    
+### 9.4 함수 예제
+
+    public class AccountingApp {
+        // 공급가액
+        public static double valueOfSupply = 10000.0;
+
+        // 부가가치세율 
+        public static double vatRate = 0.1;
+
+        public static double getVAT() {
+            return valueOfSupply * vatRate;
+        }
+        public static double getTotal() {
+            return valueOfSupply + getVAT();
+        }
+
+        public static void main(String[] args) {
+
+            System.out.println("Value of supply : " + valueOfSupply);
+            System.out.println("VAT : " + getVAT());
+            System.out.println("Total : " + getTotal());
+
+        }
+
+    }
+    
+## 10 객체지향
+
+서로 연관된 함수와 변수를 그룹핑한 것을 Class라고 하고 Class를 중심으로 프로그램의 구조를 만드는 것을<br>
+객체 지향 프로그래밍 이라고 한다.
+
+### 10.1 class 기본형
+
+    class Print {
+        public static String delimiter;
+        public static void A() {
+            System.out.println(delimiter);
+            System.out.println("A");
+            System.out.println("A");
+        }
+        public static void B() {
+            System.out.println(delimiter);
+            System.out.println("B");
+            System.out.println("B");
+        }
+    }
+
+    public class MyOOP {
+
+        public static void main(String[] args) {
+
+            Print.delimiter = "----";
+            Print.A();
+            Print.A();
+            Print.B();
+            Print.B();
+
+            Print.delimiter = "****";
+            Print.A();
+            Print.A();
+            Print.B();
+            Print.B();
+        }	
+    }
+
+### 10.2 인스턴스
+
+클래스의 복제본으로 클래스의 현재 생성된 오브젝트를 가리킨다. <br>
+인스턴스를 사용하면 내부 변수가 다른 여려개의 객체를 생성해서 사용할 수 있다. <br>
+인스턴스의 생성은 new를 사용한다.
+
+    class Print {
+        public String delimiter;
+        public void A() {
+            System.out.println(delimiter);
+            System.out.println("A");
+            System.out.println("A");
+        }
+        public void B() {
+            System.out.println(delimiter);
+            System.out.println("B");
+            System.out.println("B");
+        }
+    }
+
+    public class MyOOP {
+
+        public static void main(String[] args) {
+
+            Print p1 = new Print();
+            p1.delimiter= "****";
+            p1.A();
+            p1.A();
+            p1.B();
+            p1.B();
+
+            Print p2 = new Print();
+            p2.delimiter= "****";
+            p2.A();
+            p2.A();
+            p2.B();
+            p2.B();
+
+            p1.A();
+            p2.A();
+            p1.A();
+            p2.A();
+        }
+
+    }
+ 
+## 10.3 static
+1. class 안에static이 있는건 클래스소속<br>
+2. static가 없는건 인스턴스 소속 <br>
+3. static이 붙지 않은 건 인스턴스 생성 시 생성됨
+4. 일반적인 Class 호출 시 static이 없는 변수나 함수는 호출할 수 없음 <br>
+5. static이 없는 건 인스턴스를 생성해서 접근 가능 <br>
+6. 인스턴스로 생성해서 static의 함수나 변수에 접근 가능 하지만 <br>
+7. 일반적인 방법으로 호출하도록 해야함
+8. static이 붙은 변수를 변경하면 클래스 자체가 변경되므로 복제품인 모든 인스턴스의 변수도 변경됨
+10. static이 붙지 않은 변수는 인스턴스 소속이므로 class자체가 아니라 변경한 인스턴스만 변수가 변경됨
+
+    class Foo{
+        public static String classVar = "I class var";
+        public String instanceVar = "I instance var";
+        public static void classMethod() {
+            System.out.println(classVar); // Ok
+    //      System.out.println(instanceVar); // Error
+        }
+        public void instanceMethod() {
+            System.out.println(classVar); // Ok
+            System.out.println(instanceVar); // Ok
+        }
+    }
+    public class StaticApp {
+
+        public static void main(String[] args) {
+            System.out.println(Foo.classVar); // OK
+    //      System.out.println(Foo.instanceVar); // Error
+            Foo.classMethod();
+    //      Foo.instanceMethod();
+
+            Foo f1 = new Foo();
+            Foo f2 = new Foo();
+    //      
+            System.out.println(f1.classVar); // I class var // 예시용이고 Foo.classVar로 접근 해야함
+            System.out.println(f1.instanceVar); // I instance var
+    //      
+            f1.classVar = "changed by f1"; // 예시용이고 Foo.classVar로 접근 해야함
+            System.out.println(Foo.classVar); // changed by f1
+            System.out.println(f2.classVar);  // changed by f1
+    //      
+            f1.instanceVar = "changed by f1";
+            System.out.println(f1.instanceVar); // changed by f1
+            System.out.println(f2.instanceVar); // I instance var
+        }
+
+    }
+
+## 10. 컴파일
 
 개발도구를 거치지 않고 컴파일 하는 방법
 
@@ -366,17 +570,5 @@ for : 정해진 횟수에 사용
 
 파일 실행은 java 파일명을 입력
 
-## 10. 인스턴스
 
-클래스의 현재 생성된 오브젝트를 가리킨다.
-
-    PrintWriter p1 = new PrintWriter("result1.txt");  //  p1 이라는 새로운 인스턴스 생성
-    p1.write("Hello 1");
-    p1.close();
-
-    PrintWriter p2 = new PrintWriter("result2.txt");  // p2 라는 새로운 인스턴스 생성
-    p2.write("Hello 2");
-    p2.close();
-        
-이것의 쉬운 사용 예로는 사람의 이름, 몸무게, 키 등의 인적 사항을 가진 객체의 생성이 있다.
 
