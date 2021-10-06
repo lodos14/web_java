@@ -523,42 +523,42 @@ for : 정해진 횟수에 사용
 8. static이 붙은 변수를 변경하면 클래스 자체가 변경되므로 복제품인 모든 인스턴스의 변수도 변경됨
 10. static이 붙지 않은 변수는 인스턴스 소속이므로 class자체가 아니라 변경한 인스턴스만 변수가 변경됨
 
-    class Foo{
-        public static String classVar = "I class var";
-        public String instanceVar = "I instance var";
-        public static void classMethod() {
-            System.out.println(classVar); // Ok
-    //      System.out.println(instanceVar); // Error
+        class Foo{
+            public static String classVar = "I class var";
+            public String instanceVar = "I instance var";
+            public static void classMethod() {
+                System.out.println(classVar); // Ok
+                //      System.out.println(instanceVar); // Error
+            }
+            public void instanceMethod() {
+                System.out.println(classVar); // Ok
+                System.out.println(instanceVar); // Ok
+            }
         }
-        public void instanceMethod() {
-            System.out.println(classVar); // Ok
-            System.out.println(instanceVar); // Ok
+        public class StaticApp {
+
+            public static void main(String[] args) {
+                System.out.println(Foo.classVar); // OK
+                //      System.out.println(Foo.instanceVar); // Error
+                Foo.classMethod();
+                //      Foo.instanceMethod();
+
+                Foo f1 = new Foo();
+                Foo f2 = new Foo();
+                //      
+                System.out.println(f1.classVar); // I class var // 예시용이고 Foo.classVar로 접근 해야함
+                System.out.println(f1.instanceVar); // I instance var
+                //      
+                f1.classVar = "changed by f1"; // 예시용이고 Foo.classVar로 접근 해야함
+                System.out.println(Foo.classVar); // changed by f1
+                System.out.println(f2.classVar);  // changed by f1
+                //      
+                f1.instanceVar = "changed by f1";
+                System.out.println(f1.instanceVar); // changed by f1
+                System.out.println(f2.instanceVar); // I instance var
+            }
+
         }
-    }
-    public class StaticApp {
-
-        public static void main(String[] args) {
-            System.out.println(Foo.classVar); // OK
-    //      System.out.println(Foo.instanceVar); // Error
-            Foo.classMethod();
-    //      Foo.instanceMethod();
-
-            Foo f1 = new Foo();
-            Foo f2 = new Foo();
-    //      
-            System.out.println(f1.classVar); // I class var // 예시용이고 Foo.classVar로 접근 해야함
-            System.out.println(f1.instanceVar); // I instance var
-    //      
-            f1.classVar = "changed by f1"; // 예시용이고 Foo.classVar로 접근 해야함
-            System.out.println(Foo.classVar); // changed by f1
-            System.out.println(f2.classVar);  // changed by f1
-    //      
-            f1.instanceVar = "changed by f1";
-            System.out.println(f1.instanceVar); // changed by f1
-            System.out.println(f2.instanceVar); // I instance var
-        }
-
-    }
 
 ## 10. 컴파일
 
