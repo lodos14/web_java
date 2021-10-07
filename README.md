@@ -633,35 +633,34 @@ this : 자기자신의 클래스의 변수 또는 함수를 가르킴
 ### 11.1 Overriding
 부모가 가지고 있는 기능을 재정의 하는 것, 부모가 가진 함수의 내용만 재정의 하는 것
 
-    class Cal {
-        public int sum(int v1, int v2) {
-            return v1 + v2;
-        }
-    }
+	class Cal {
+		public int sum(int v1, int v2) {
+		    return v1 + v2;
+		}
+	}
 
-    class Cal3 extends Cal {
-        public int minus(int v1, int v2) {
-            return v1 - v2;
-        }
-        // 부모가 가지고 있는 기능 재정의(Overriding) 즉 부모가 가진 함수를 내용만 재정의 하는 것
-        public int sum(int v1, int v2) { 
-            System.out.println("Cal3!!");
-            return v1 + v2;
-        }
-    }
+	class Cal3 extends Cal {
+		public int minus(int v1, int v2) {
+		    return v1 - v2;
+		}
+		// 부모가 가지고 있는 기능 재정의(Overriding) 즉 부모가 가진 함수를 내용만 재정의 하는 것
+		public int sum(int v1, int v2) { 
+		    System.out.println("Cal3!!");
+		    return v1 + v2;
+		}
+	}
+	public class InheritanceApp {
 
-    public class InheritanceApp {
+		public static void main(String[] args) {
+		    Cal c1 = new Cal();
+		    System.out.println(c1.sum(2, 1)); // 3
 
-        public static void main(String[] args) {
-            Cal c1 = new Cal();
-            System.out.println(c1.sum(2, 1)); // 3
+		    Cal3 c3 = new Cal3();
+		    System.out.println(c3.sum(2, 1)); // Cal3!! 3
+		    System.out.println(c3.minus(2, 1)); // 1
+		}
 
-            Cal3 c3 = new Cal3();
-            System.out.println(c3.sum(2, 1)); // Cal3!! 3
-            System.out.println(c3.minus(2, 1)); // 1
-        }
-
-    }
+	}
 
 ### 11.2 Overloading
 같은 이름의 메서드를 매개변수의 갯수와 타입이 다른 함수를 정의 하는 것<br>
