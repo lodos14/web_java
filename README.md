@@ -559,6 +559,217 @@ for : 정해진 횟수에 사용
             }
 
         }
+        
+## 10.4 생성자와 this
+생성자 : 인스턴스를 생성할 때 해야할 초기화 작업을 정의
+this : 자기자신의 클래스의 변수 또는 함수를 가르킴
+
+    class Print {
+        public String delimiter="!!!!" ;
+        public Print() { // 생성자 매개변수를 빈 값으로 넣으면 기본 값으로 설정됨
+
+        }
+        public Print(String _delimiter) { // 매개변수를 넣으면 사용자가 인자를 전달한 값으로 설정가능
+            this.delimiter = _delimiter; // this = 자신 클래스의 변수
+        }
+
+        public void A() {
+            System.out.println(this.delimiter);
+            System.out.println("A");
+            System.out.println("A");
+        }
+        public void B() {
+            System.out.println(this.delimiter);
+            System.out.println("B");
+            System.out.println("B");
+        }
+    }
+    public class MyOOP {
+
+        public static void main(String[] args) {
+
+            Print p1 = new Print("----");	
+            p1.A();
+            p1.A();
+            p1.B();
+            p1.B();
+
+            Print p2 = new Print("****");	
+            p2.A();
+            p2.A();
+            p2.B();
+            p2.B();
+
+            p1.A();
+            p2.A();
+            p1.A();
+            p2.A();
+        }
+    }
+
+## 11. 상속
+어떤 클래스가 가지고 있는 메소드와 변수를 다른 클래스가 상속받아 사용할 수 있는 것
+
+    class Cal {
+        public int sum(int v1, int v2) {
+            return v1 + v2;
+        }
+    }
+    class Cal3 extends Cal { // 상속받을 클래스 뒤에 extends + 상속할 클래스
+
+    }
+    public class InheritanceApp {
+
+        public static void main(String[] args) {
+            Cal c1 = new Cal();
+            System.out.println(c1.sum(2, 1)); // 3
+            
+            Cal3 c3 = new Cal3();
+            System.out.println(c3.sum(2, 1)); // 3
+        }
+
+    }
+
+### 11.1 Overriding
+부모가 가지고 있는 기능을 재정의 하는 것, 부모가 가진 함수의 내용만 재정의 하는 것
+
+    class Cal {
+        public int sum(int v1, int v2) {
+            return v1 + v2;
+        }
+    }
+
+    class Cal3 extends Cal {
+        public int minus(int v1, int v2) {
+            return v1 - v2;
+        }
+        // 부모가 가지고 있는 기능 재정의(Overriding) 즉 부모가 가진 함수를 내용만 재정의 하는 것
+        public int sum(int v1, int v2) { 
+            System.out.println("Cal3!!");
+            return v1 + v2;
+        }
+    }
+
+    public class InheritanceApp {
+
+        public static void main(String[] args) {
+            Cal c1 = new Cal();
+            System.out.println(c1.sum(2, 1)); // 3
+
+            Cal3 c3 = new Cal3();
+            System.out.println(c3.sum(2, 1)); // Cal3!! 3
+            System.out.println(c3.minus(2, 1)); // 1
+        }
+
+    }
+
+### 11.2 Overloading
+같은 이름의 메서드를 매개변수의 갯수와 타입이 다른 함수를 정의 하는 것<br>
+overloading는 상속에만 국한되는게 아니라 같은 클래스 안에서도 일어남
+
+    class Cal {
+        public int sum(int v1, int v2) {
+            return v1 + v2;
+        }
+        // 같은 이름의 메서드를 매개변수의 갯수와 타입이 다른 함수를 정의 하는 것 (Overloading)
+        public int sum(int v1, int v2, int v3) { 
+            return v1 + v2 + v3;
+        }
+    }
+
+    class Cal3 extends Cal {
+        // 같은 이름의 메서드를 매개변수의 갯수와 타입이 다른 함수를 정의 하는 것 (Overloading)
+        public int sum(int v1, int v2, int v3) { 
+            return v1 + v2 + v3;
+        }
+    }
+
+public class InheritanceApp {
+
+	public static void main(String[] args) {
+		Cal c1 = new Cal();
+		System.out.println(c1.sum(2, 1)); // 3
+		System.out.println(c1.sum(2, 1, 1)); // 4	
+	}
+
+}
+
+### 11.3 super와 this
+super : 부모클래스를 가리킴 <br>
+this : 자기 자신을 가리킴
+
+    class Cal {
+        public int sum(int v1, int v2) {
+            return v1 + v2;
+        }
+
+        // 같은 이름의 메서드를 매개변수의 갯수와 타입이 다른 함수를 정의 하는 것 (Overloading)
+        public int sum(int v1, int v2, int v3) {
+            return this.sum(v1, v2) + v3; // this -> 자기 자신을 가리킴
+        }
+    }
+
+    class Cal3 extends Cal {
+
+        // 부모가 가지고 있는 기능 재정의(Overriding) 즉 부모가 가진 함수를 내용만 재정의 하는 것
+        public int sum(int v1, int v2) {
+            int a = super.sum(v1, v2); // super-> 부모클래스를 가리킴
+            return a + 3;  
+        }
+    }
+
+    public class InheritanceApp {
+
+        public static void main(String[] args) {
+            Cal c1 = new Cal();
+            System.out.println(c1.sum(2, 1)); // 3
+            System.out.println(c1.sum(2, 1, 1)); // 4
+
+            Cal3 c3 = new Cal3();
+            System.out.println(c3.sum(2, 1)); // 6		
+        }
+
+    }
+
+### 11.4 상속과 생성자
+부모클래스에 생성자가 있으면 자식 클래스는 부모클래스의 생성자를 실행해야 한다.
+
+    class Cal {
+        int v1, v2;
+
+        Cal(int v1, int v2) {
+            System.out.println("Cal init");
+            this.v1 = v1;
+            this.v2 = v2;
+        }
+
+        public int sum() {
+            return this.v1 + v2;
+        }
+    }
+
+    class Cal3 extends Cal {
+
+        Cal3(int v1, int v2) {
+            super(v1, v2); // 부모클래스의 생성자를 실행 시킨다.
+            System.out.println("Cal3 init!!");
+        }
+
+        public int minus() {
+            return this.v1 - this.v2;
+        }
+    }
+
+    public class InheritanceApp {
+
+        public static void main(String[] args) {
+            Cal c1 = new Cal(2, 1);
+            Cal3 c3 = new Cal3(2, 1);
+            System.out.println(c1.sum()); // 3
+            System.out.println(c3.minus()); // 1
+        }
+
+    }
 
 ## 10. 컴파일
 
