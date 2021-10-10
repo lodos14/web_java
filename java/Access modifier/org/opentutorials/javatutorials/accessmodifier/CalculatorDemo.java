@@ -26,7 +26,7 @@ public class CalculatorDemo {
 
 	public static void main(String[] args) {
 		Calculator c1 = new Calculator(10, 20);
-		//c1.setOprands(10, 20);
+		c1.setOprands(10, 20);
 		c1.sumDecoPlus(); // ++++30++++	
 		c1.sumDecoMinus(); // ----30----
 	}
