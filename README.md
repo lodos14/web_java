@@ -25,10 +25,10 @@
 
 ### 3.1 Operator(연산자)
 
-    System.out.println(6 + 2); // 8
-    System.out.println(6 - 2); // 4
-    System.out.println(6 * 2); // 12
-    System.out.println(6 / 2); // 3 
+	System.out.println(6 + 2); // 8
+	System.out.println(6 - 2); // 4
+	System.out.println(6 * 2); // 12
+	System.out.println(6 / 2); // 3 
     
 ### 3.2 Math 활용 예제
 
@@ -685,13 +685,13 @@ overloading는 상속에만 국한되는게 아니라 같은 클래스 안에서
     
 	public class InheritanceApp {
 
-			public static void main(String[] args) {
-				Cal c1 = new Cal();
-				System.out.println(c1.sum(2, 1)); // 3
-				System.out.println(c1.sum(2, 1, 1)); // 4	
-			}
-
+		public static void main(String[] args) {
+			Cal c1 = new Cal();
+			System.out.println(c1.sum(2, 1)); // 3
+			System.out.println(c1.sum(2, 1, 1)); // 4	
 		}
+
+	}
 
 ### 11.3 super와 this
 super : 부모클래스를 가리킴 <br>
@@ -787,7 +787,6 @@ this : 자기 자신을 가리킴
 접근 제어자는 클래스의 맴버(변수와 메소드)들의 접근 권한을 지정한다. <br>
 public : 클래스 밖에서 접근할 수 있다. <br>
 private : 클래스 밖에서 접근할 수 없다.
-
 
 	class A {
 	    public String y(){
