@@ -780,5 +780,44 @@ this : 자기 자신을 가리킴
 
 파일 실행은 java 파일명을 입력
 
+## 13. 접근제어자
+
+### 13.1 public, private
+
+접근 제어자는 클래스의 맴버(변수와 메소드)들의 접근 권한을 지정한다. <br>
+public : 클래스 밖에서 접근할 수 있다. <br>
+private : 클래스 밖에서 접근할 수 없다.
 
 
+	class A {
+	    public String y(){
+		return "public void y()";
+	    }
+	    private String z(){
+		return "public void z()";
+	    }
+	    public String x(){
+		return z();
+	    }
+	}
+	public class AccessDemo1 {
+	    public static void main(String[] args) {
+		A a = new A();
+		System.out.println(a.y());
+		// 아래 코드는 오류가 발생한다.
+		//System.out.println(a.z());
+		
+		// 하지만 같은 클래스의 함수를 이용하면 private 함수에 접근이 가능 하다.
+		System.out.println(a.x()); // public void z()
+	    }
+	}
+	
+![접근제어](https://user-images.githubusercontent.com/81665608/136708203-1c432e74-1041-4cbd-b3f9-ff96cbc3c3f4.png)
+
+
+### 13.2 클래스 접근 제어자
+
+public : public를 붙이는 경우 모든 곳에서 접근이 가능하다. <br>
+default : default는 접근 제어자를 붙이지 않은 경우 default가 된다.
+
+#### 즉 접근 제어자가 public인 클래스는 다른 패키지의 클래스에서도 사용할 수 있고, default인 경우는 같은 패키지에서만 사용 가능하다.
