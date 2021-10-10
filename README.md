@@ -682,16 +682,16 @@ overloading는 상속에만 국한되는게 아니라 같은 클래스 안에서
             return v1 + v2 + v3;
         }
     }
+    
+	public class InheritanceApp {
 
-public class InheritanceApp {
+			public static void main(String[] args) {
+				Cal c1 = new Cal();
+				System.out.println(c1.sum(2, 1)); // 3
+				System.out.println(c1.sum(2, 1, 1)); // 4	
+			}
 
-	public static void main(String[] args) {
-		Cal c1 = new Cal();
-		System.out.println(c1.sum(2, 1)); // 3
-		System.out.println(c1.sum(2, 1, 1)); // 4	
-	}
-
-}
+		}
 
 ### 11.3 super와 this
 super : 부모클래스를 가리킴 <br>
