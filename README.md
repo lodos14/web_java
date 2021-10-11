@@ -38,7 +38,8 @@
 
 ## 4. 문자열 다루기
 
-### 4.1 자바에서 코드 작성 시 문자열이 밑줄로 빠지는 경우 아래와 같이 작성해야 한다. 
+### 4.1 자
+바에서 코드 작성 시 문자열이 밑줄로 빠지는 경우 아래와 같이 작성해야 한다. 
 
     System.out.println("Hello "   // Hello World
         + "World");
@@ -902,3 +903,244 @@ final 메소드는 final 변수 만큼 사용 빈도가 높지는 않다. 아래
 		final void b(){}
 	}
 	class D extends C{}
+
+
+### 16. interface
+
+어떤 객체가 있고 그 객체가 특정한 인터페이스를 사용한다면 그 객체는 반드시 인터페이스의  메소드들을 구현해야 한다. 만약 인터페이스에서 강제하고 있는 메소드를 구현하지 않으면 이 에플리케이션은 컴파일 조차 되지 않는다.<br>
+인터페이스의 멤버는 무조건 public이다. <br>
+
+	interface I1 {
+		public void x();
+	}
+	interface I2 {
+		public void z();
+	}
+
+	class A implements I1, I2 {
+		public void x() { // interface 구현
+		}
+		public void z() { // interface 구현
+		}
+	}
+
+인터페이스는 상속이 된다.
+
+	interface I3{
+		public void x();
+	}
+
+	interface I4 extends I3{
+		public void z();
+	}
+
+	class B implements I4{
+		public void x(){}
+		public void z(){}   
+	}
+
+사용 용도의 예는 클래스를 구현하는 사람과 그 클래스를 이용해서 프로그램을 구성하는 두명의 사람이 인터페이스를 통해 서로 클래스 구현 구성을 약속하는 용도로 사용한다.
+
+먼저 아래와 같이 인터페이스를 구성하기로 약속했을 때
+
+	public interface Calculatable {
+		public void setOprands(int first, int second, int third);
+		public int sum();
+		public int avg();
+	}
+	
+클래스를 구현하는 사람은 아래와 같이 코드를 작성해서 인터페이스에 있는 함수를 구현하고
+
+	class Calculator implements Calculatable {
+		int first, second, third;
+
+		public void setOprands(int first, int second, int third) {
+			this.first = first;
+			this.second = second;
+			this.third = third;
+
+		}
+
+		public int sum() {
+			return this.first + second + third;
+		}
+
+		public int avg() {
+
+			return this.sum() / 2;
+		}
+
+	}
+
+만들어진 클래스를 이용해서 프로그램을 구성하는 사람은 아래와 같이 코드를 작성해서 가짜 클래스 CalculatorDummy 를 구현 후 프로그램을 구성한 뒤에 클래스를 구현하는 사람이 작업을 완료하면 main 부분CalculatorDummy 대신 Calculator로 바꾸어만 주면 된다.
+
+	class CalculatorDummy implements Calculatable {
+		public void setOprands(int first, int second, int third) {
+
+		}
+
+		public int sum() {
+			return 60;
+		}
+
+		public int avg() {
+			return 20;
+		}
+	}
+
+	public class InterfaceApp {
+
+		public static void main(String[] args) {
+
+			CalculatorDummy c = new CalculatorDummy();
+			c.setOprands(10, 20, 30);
+			System.out.println("합 : " + c.sum());
+			System.out.println("평균 : " + c.avg());
+
+		}
+
+	}
+
+이런식으로 인터페이스를 사용하면 사용하는 함수나 매개변수 등을 고정적으로 사용하므로 작업을 나누더라도 실수를 줄일 수 있다.
+
+## 17. 다형성(Polymorphism)
+다형성의 가장 좋은 예는 overloading이다.
+
+class O{
+	public void a(int param) {
+		System.out.println("숫자출력");
+		System.out.println(param);
+	}
+	
+	public void a(String param) {
+		System.out.println("문자출력");
+		System.out.println(param);
+	}
+}
+
+public class PolymorphismOverloadingApp {
+
+	public static void main(String[] args) {
+		O o = new O();
+		// 각각의 데이터 형태에 따라 함수를 찾아 실행
+		o.a(1);;
+		o.a("one");
+	}
+	
+}
+
+다음은 클래스 다형성의 예이다. <br>
+자식 클래스에 부모 클래스의 함수가 있다면 자식 클래스의 인스턴스 데이터 타입을 부모 클래스로 지정할 수 있다.
+
+	class A{
+		public String x() {return "A";}
+	}
+
+	class B extends A{
+		public String x() {return "B";}
+		public String y() {return "y";}
+	}
+	public class PolymorphismApp1 {
+
+		public static void main(String[] args) {
+			// 자식클래스의 타입을 부모 타입으로 인스턴스 생성을 할 수 있다.
+			A obj = new B(); // 클래스 B를 인스턴스 생성했지만 데이터 타입은 A이다.
+			System.out.println(obj.x());
+
+			// 자식의 타입이 부모이므로 부모에 없는 함수는 실행 안됨
+			// 그러므로 밑에 코드는 오류
+			//System.out.println(obj.y());
+
+		}
+	}
+
+이것의 사용 예로는 다음 코드를 참조
+
+	public static void excute(Calculator cal) {
+			System.out.println("실행결과");
+			cal.run();
+		}
+		public static void main(String[] args) { 
+		
+			// CalculatorDecoPlus, CalculatorDecoMinus 타입을 각각 만들면
+			// excute함수를 오버로드해서 2개의 함수를 만들어야 하지만
+			// 데이터 타입을 통일함으로서 excute 함수 하나로 실행가능  
+			
+			Calculator c1 = new CalculatorDecoPlus();
+			c1.setOprands(10, 20);
+
+			Calculator c2 = new CalculatorDecoMinus();
+			c2.setOprands(10, 20);
+
+			excute(c1);
+			excute(c2);
+		}
+		
+다음은 인터페이스의 다형성이다.<br>
+어떤 클래스가 가진 기능 중 어떤 특정한 인터페이스의 기능만 사용하고자 한다면 데이터 타입을 그 인터페이스로 지정을 해서 그 멤버를 제외한 나머지 것들은 신경쓰지 않고 사용할 수 있다. 즉 필요한 인터페이스 기능만 제공
+
+	interface I1{
+		public String A();
+	}
+	interface I2{
+		public String B();
+	}
+
+	class C implements I1, I2 {
+		public String A() {
+			return "A";
+		}
+		public String B() {
+			return "B";
+		}
+	}
+
+	public class PolymorphismInterfaceApp {
+
+		public static void main(String[] args) {
+
+			C obj = new C();
+			// 어떤 클래스가 어떤 인터페이스를 사용했다면
+			// 인스턴스 데이터 타입을 인터페이스로 할 수 있다.
+			I1 objI1 = new C();
+			I2 objI2 =new C();
+
+			obj.A();
+			obj.B();
+
+			objI1.A();
+			//objI1.B(); I1에 B() 없음 -> 실행안됨
+
+			//objI2.A(); I2에 A() 없음 ->실행안됨
+			objI2.B();
+		}
+
+	}
+
+인터페이스 다형성의 예제
+
+	interface father{}
+	interface mother{}
+	interface programmer{
+		public void coding();
+	}
+	interface believer{}
+	class Steve implements father, programmer, believer{
+		public void coding(){
+			System.out.println("fast");
+		}
+	}
+	class Rachel implements mother, programmer{
+		public void coding(){
+			System.out.println("elegance");
+		}
+	}
+	public class Workspace{
+		public static void main(String[] args){
+			programmer employee1 = new Steve();
+			programmer employee2 = new Rachel();
+
+			employee1.coding();
+			employee2.coding();
+		}
+	}
