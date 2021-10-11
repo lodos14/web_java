@@ -820,3 +820,85 @@ public : public를 붙이는 경우 모든 곳에서 접근이 가능하다. <br
 default : default는 접근 제어자를 붙이지 않은 경우 default가 된다.
 
 #### 즉 접근 제어자가 public인 클래스는 다른 패키지의 클래스에서도 사용할 수 있고, default인 경우는 같은 패키지에서만 사용 가능하다.
+
+## 14. 추상클래스(abstract)
+추상 클래스는 상속을 강제하기 위한 것이다. 즉 부모 클래스에는 메소드의 시그니처만 정의해놓고 그 메소드의 실제 동작 방법은 이 메소드를 상속 받은 하위 클래스의 책임으로 위임하고 있다. <br>
+클래스에 하나라도 추상함수가 있으면 그를 포함하는 클래스는 자동으로 추상 클래스가 된다.
+
+	abstract class A{
+		public abstract int b();
+		// 본체가 있는 메소드는 abstract 키워드를 가질 수 없다.
+		//public abstract int c(){System.out.println("Hello")}
+		//추상 클래스 내에는 추상 메소드가 아닌 메소드가 존재할 수 있다.
+		public void d() {
+			System.out.println("world");
+		}
+	}
+	class B extends A{
+		public int b() { // 부모에 있던 추상 메소드를 자식에서 정의 해줘야함
+			return 1;
+		}
+	}
+	public class AbstractApp {
+
+		public static void main(String[] args) {
+
+			// A obj = new A(); // 추상클래스는 반드시 상속해서 사용해야 한다.
+			B obj = new B(;)
+
+		}
+
+	}
+	
+## 15. final
+실행되는 과정에서 한 번 값이 정해진 이후에는 변수 내의 값이 바뀌지 않도록 하는 규제
+
+### 15.1 final 변수
+
+	class Calculator {
+		static final double PI =3.14; // 변경 불가
+		int left, right;
+
+		public void setOprands(int left, int right) {
+			this.left = left;
+			this.right = right;
+			//Calculator.PI = 6;
+		}
+
+		public void sum() {
+			System.out.println(this.left + this.right);
+		}
+		public void avg() {
+			System.out.println((this.left + this.right) / 2);
+		}
+	}
+
+	public class FinalApp {
+
+		public static void main(String[] args) {
+
+			Calculator c1 = new Calculator();
+			System.out.println(c1.PI);
+			// Calculator.PI = 10; // 에러발생
+
+		}
+
+	}
+
+### 15.2 final 함수
+final 메소드는 final 변수 만큼 사용 빈도가 높지는 않다. 아래의 코드는 final 메소드 b를 상속하려하기 때문에 오류가 발생한다.
+
+	class A{
+		final void b(){}
+	}
+	class B extends A{
+		void b(){}
+	}
+	
+### 15.3 final 클래스
+아래 코드는 final 클래스를 상속하려하고 있다. 따라서 오류가 발생한다.
+
+	final class C{
+		final void b(){}
+	}
+	class D extends C{}
