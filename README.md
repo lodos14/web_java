@@ -905,7 +905,7 @@ final 메소드는 final 변수 만큼 사용 빈도가 높지는 않다. 아래
 	class D extends C{}
 
 
-### 16. interface
+## 16. interface
 
 어떤 객체가 있고 그 객체가 특정한 인터페이스를 사용한다면 그 객체는 반드시 인터페이스의  메소드들을 구현해야 한다. 만약 인터페이스에서 강제하고 있는 메소드를 구현하지 않으면 이 에플리케이션은 컴파일 조차 되지 않는다.<br>
 인터페이스의 멤버는 무조건 public이다. <br>
@@ -1143,4 +1143,166 @@ public class PolymorphismOverloadingApp {
 			employee1.coding();
 			employee2.coding();
 		}
+	}
+
+## 18. 예외 처리(Exception Handling)
+예외(Exception)란 프로그램을 만든 프로그래머가 상정한 정상적인 처리에서 벗어나는 경우에 이를 처리하기 위한 방법이다.
+
+### 18.1 예외처리 기본 방식
+
+	class Calculator {
+		int left, right;
+
+		public void setOprands(int left, int right) {
+			this.left = left;
+			this.right = right;
+		}
+
+		public void divide() {
+			try { // 오류가 예측되는 부분에 try로 감싼다.
+				System.out.print("계산결과는 ");
+				System.out.print(this.left / this.right);
+				System.out.print(" 입니다.");
+			} catch (Exception e) { // 오류가 발생하면 catch라는 함수에 오류 정보(예외클래스 인스턴스)를 매개변수로 넘겨줌 
+				System.out.println("오류가 발생했습니다 : " + e.getMessage());
+				// 계산결과는 오류가 발생했습니다 : / by zero
+			}
+		}
+	}
+
+	public class ExceptionApp1 {
+		public static void main(String[] args) {
+			Calculator c1 = new Calculator();
+			c1.setOprands(10, 0);
+			c1.divide();
+		}
+	}
+
+### 18.2 뒷 수습
+getMessage() : 간단한 오류 메세지 출력<br>
+toString() : 구체적인 오류 메세지 출력<br>
+printStackTrace() : 오류에 대한 모든 메세지 출력
+
+	class Calculator{
+		int left, right;
+		public void setOprands(int left, int right){
+			this.left = left;
+			this.right = right;
+		}
+		public void divide(){
+			try {
+				System.out.print("계산결과는 ");
+				System.out.print(this.left/this.right);
+				System.out.print(" 입니다.");
+			} catch(Exception e){
+				System.out.println("\n\ne.getMessage()\n"+e.getMessage());
+				System.out.println("\n\ne.toString()\n"+e.toString());
+				System.out.println("\n\ne.printStackTrace()");
+				e.printStackTrace();
+			}
+			System.out.println("Divide End");  // 오류가 나더라도 catch를 실행 후 그 다음 로직을 실행함
+		}
+	} 
+	public class ExceptionApp1 {
+		public static void main(String[] args) {
+			Calculator c1 = new Calculator();
+			c1.setOprands(10, 0);
+			c1.divide();
+			/*
+			계산결과는 
+
+			e.getMessage()
+			/ by zero
+
+
+			e.toString()
+			java.lang.ArithmeticException: / by zero
+
+
+			e.printStackTrace()
+			java.lang.ArithmeticException: / by zero
+				at Calculator.divide(ExceptionApp1.java:11)
+				at ExceptionApp1.main(ExceptionApp1.java:25)
+			Divide End
+			*/
+		}
+	}
+
+### 18.3 다양한 예외들
+catch는 조건문의 else if처럼 여러 개의 catch를 하나의 try 구문에서 사용할 수 있다.<br>
+아래와 같이 여러가지 예외가 발생 가능한 경우가 있을 때 오류 종류에 따라 다른 코드를 실행하고 싶은 경우 사용한다. 
+
+	class A {
+		private int[] arr = new int[3];
+
+		A() {
+			arr[0] = 0;
+			arr[1] = 10;
+			arr[2] = 20;
+		}
+
+		public void z(int first, int second) {
+			try {
+				System.out.println(arr[first] / arr[second]);			
+			} catch(ArithmeticException e) {
+				System.out.println("ArithmeticException e");
+			} catch(ArrayIndexOutOfBoundsException e) {
+				System.out.println("ArrayIndexOutOfBoundsException e");
+			} catch(Exception e) {
+				System.out.println("Exception e");
+			}
+		}
+	}
+
+	public class ExcepitonApp2 {
+		public static void main(String[] args) {
+			A a = new A();
+			a.z(1, 0);  // 전달하는 인자에 따라서 여러가지 오류 발생
+		}
+	}
+
+### 18.4 Finally
+예외와 상관없이 실행한다. 주로 데이터베이스의 접속을 끊어줄 때 사용한다. 로직이 정상적으로 실행 되거나 예외가 발생해도 데이터베이스와 접속을 끊어야 하기 때문이다.
+
+	try {
+		System.out.println(arr[first] / arr[second]);
+	} catch(ArrayIndexOutOfBoundsException e){
+		System.out.println("ArrayIndexOutOfBoundsException");
+	} catch(ArithmeticException e){
+		System.out.println("ArithmeticException");
+	} catch(Exception e){
+		System.out.println("Exception");
+	} finally { // 데이터베이스
+		System.out.println("finally");
+	}
+
+### 18.5 throws
+throws는 다음 사용자에게 예외처리를 넘기는 것이다.
+
+	class C{
+		void run() throws , IOException{ // 예상되는 예외처리를 다음 사용자에게 강제
+			BufferedReader bReader = null;
+			String input = null;
+			bReader = new BufferedReader(new FileReader("out.txt")); // FileReader에서 FileNotFoundException 발생가능
+			input = bReader.readLine();  // readLine에서 IOException 발생가능
+			System.out.println(input); 
+		}
+	}
+	class D{
+		void run() throws FileNotFoundException, IOException{ // 예상되는 예외처리를 다음 사용자에게 강제
+			C c = new C();
+			c.run();	
+		}
+	}
+	public class ExceptionThrowApp {
+		public static void main(String[] args) { // 예외처리를 넘겨 받았으니 여기서 예외처리
+			 D d = new D();
+			 try {
+				d.run();
+			} catch (FileNotFoundException e) {		
+				e.printStackTrace();
+			} catch (IOException e) {	
+				e.printStackTrace();
+			}
+		}   
 	}
