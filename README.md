@@ -1383,8 +1383,9 @@ API 쪽에서 예외를 던졌을 때 API 사용자 쪽에서 예외 상황을 �
 			this.right = right;
 		}
 		public void divide() throws DivdeException{
-			if(right == 0) {	
-				throw new DivdeException("0으로 나눌 수 없습니다.", this.left, this.right);	// DivdeException는 Exception을 상속 받았기 때문에 checked
+			if(right == 0) {
+				// DivdeException는 Exception을 상속 받았기 때문에 checked
+				throw new DivdeException("0으로 나눌 수 없습니다.", this.left, this.right);	
 			}
 			System.out.print(this.left/this.right);
 		}
@@ -1399,5 +1400,62 @@ API 쪽에서 예외를 던졌을 때 API 사용자 쪽에서 예외 상황을 �
 				System.out.println(e.getMessage()); // 0으로 나눌 수 없습니다.
 				e.getNumberInfo();
 			}      
+		}
+	}
+## 19. Object클래스
+기본적으로 클래스는 Object 클래스의 후손이다. 그 중 사용하는 몇가지 방법이다.
+
+### 19.1 equals 구현
+
+	class Student{
+		String name;
+		Student(String name){
+			this.name = name;
+		}
+		public boolean equals(Object obj) { // Object는 모든 객체의 부모
+			Student _obj = (Student)obj;  // 부모를 자식으로 형변환 해줘야 타입 변경 가능
+			return name == _obj.name;
+		}
+	}
+
+	class ObjectDemo {
+		public static void main(String[] args) {
+			Student s1 = new Student("egoing");
+			Student s2 = new Student("egoing");
+			System.out.println(s1.equals(s2));
+		}
+	}
+
+더 많은 equals을 구현하고 싶으면 hashCode를 공부할 것
+
+### 19.2 finalize
+객체가 소멸될 때 호출되기로 약속된 메소드이다. 어떤 인스턴스를 만들었고, 그것을 변수에 담았다. 그런데 그 변수를 사용하는 곳이 더 이상 없다면 이 변수와 변수에 담겨있는 인스턴스는 더 이상 메모리에 머물고 있을 필요가 없는 것이다. 이 작업을 자동화한 것을 가비지 컬렉션이라고 한다.
+
+### 19.3 clone
+객체 복제
+
+	class Student implements Cloneable{ // 인스턴스로 Cloneable를 추가해야한다. 복제 가능한 상태라는걸 알려준다.
+		String name;
+		Student(String name){
+			this.name = name;
+		}
+		// Object에 있는 clone는 protected 이므로 다른 패키지에서 사용하려면 상속 받아 재정의 해서 사용
+		// protected는 다른 패키지에서 사용할 수 없기 때문에 다른 패키지에서 사용 시 오버라이드 해줘야함
+		public Object clone() throws CloneNotSupportedException{
+			return super.clone();
+		}
+	}
+	
+	class ObjectDemo {
+
+		public static void main(String[] args) {
+			Student s1 = new Student("kim");
+			try {
+				Student s2 = (Student)s1.clone(); // 리턴값이 Object이므로 형변환
+				System.out.println(s1.name); // kim
+				System.out.println(s2.name); // kim
+			} catch (CloneNotSupportedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
