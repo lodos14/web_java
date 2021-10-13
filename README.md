@@ -1280,7 +1280,7 @@ catch는 조건문의 else if처럼 여러 개의 catch를 하나의 try 구문�
 throws는 다음 사용자에게 예외처리를 넘기는 것이다.
 
 	class C{
-		void run() throws , IOException{ // 예상되는 예외처리를 다음 사용자에게 강제
+		void run() throws IOException{ // 예상되는 예외처리를 다음 사용자에게 강제
 			BufferedReader bReader = null;
 			String input = null;
 			bReader = new BufferedReader(new FileReader("out.txt")); // FileReader에서 FileNotFoundException 발생가능
@@ -1306,3 +1306,46 @@ throws는 다음 사용자에게 예외처리를 넘기는 것이다.
 			}
 		}   
 	}
+
+### 18.5 예외 직접 발생 시키기
+
+throw 구문을 통해 직접 예외를 직접 발생 시킬 수 있다. 
+
+	class Calculator1{
+		int left, right;
+		public void setOprands(int left, int right){
+			this.left = left;
+			this.right = right;
+		}
+		public void divide(){
+			if(right == 0) {
+				// throw 구문으로 예외 종류를 생성	
+				throw new ArithmeticException("0으로 나눌 수 없습니다.");
+				// throw 구문 다음 코드는 실행이 안된다.	
+			}
+			try {
+				System.out.print("계산결과는 ");
+				System.out.print(this.left/this.right);
+				System.out.print(" 입니다.");
+			} catch(Exception e){
+				System.out.println("\n\ne.getMessage()\n"+e.getMessage());
+				System.out.println("\n\ne.toString()\n"+e.toString());
+				System.out.println("\n\ne.printStackTrace()");
+				e.printStackTrace();
+			}
+		}
+	} 
+	public class MadeExceptionApp {
+		public static void main(String[] args) {
+			Calculator1 c1 = new Calculator1();
+			c1.setOprands(10, 0);        	
+			try {
+				c1.divide();        	
+			}catch (ArithmeticException e) {
+				System.out.println(e.getMessage()); // 0으로 나눌 수 없습니다.
+			}
+
+		}
+	}
+
+![예외종류](https://user-images.githubusercontent.com/81665608/137113213-0a745e12-c64b-4984-b37b-da4280769f26.png)
