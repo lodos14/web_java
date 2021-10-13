@@ -1355,6 +1355,49 @@ checked 예외 : RuntimeException을 제외한 Exception의 하위 클래스 <br
 unchekced 예외 : RuntimeException의 하위 클래스<br>
 
 예외를 만들기 전에 해야 할 것은 자신의 예외를 checked로 할 것인가? unchecked로 할 것인가를 정해야 한다.<br>
+
 API 쪽에서 예외를 던졌을 때 API 사용자 쪽에서 예외 상황을 복구 할 수 있다면 checked 예외를 사용한다. checked 예외는 사용자에게 문제를 해결할 기회를 주는 것이면서 예외처리를 강제하는 것이다. <br>
 
 사용자가 API의 사용방법을 어겨서 발생하는 문제거나 예외 상황이 이미 발생한 시점에서 그냥 프로그램을 종료하는 것이 덜 위험 할 때 unchecked를 사용한다. 
+
+	class DivdeException extends Exception{ // checked는 Exception을 상속 받고
+											// unchecked 는 RuntimeException을 상속 받는다.
+		int left, right;
+		DivdeException(){					
+			super();
+		}
+		DivdeException(String message, int left, int right){
+			super(message);
+			this.left = left;
+			this.right =  right;
+		}
+		void getNumberInfo(){ // 이런식으로 오류 정보를 더 구체적으로 명시해서 함수 구현 가능
+			System.out.println("left : " + this.left);
+			System.out.println("right : " + this.right);
+		}
+	}
+	class Calculator2{
+		int left, right;
+		public void setOprands(int left, int right){
+			this.left = left;
+			this.right = right;
+		}
+		public void divide() throws DivdeException{
+			if(right == 0) {	
+				throw new DivdeException("0으로 나눌 수 없습니다.", this.left, this.right);	// DivdeException는 Exception을 상속 받았기 때문에 checked
+			}
+			System.out.print(this.left/this.right);
+		}
+	} 
+	public class MadeExceptionApp3 {
+		public static void main(String[] args) {
+			Calculator2 c2 = new Calculator2();
+			c2.setOprands(10, 0);        	
+			try {
+				c2.divide();        	
+			}catch (DivdeException e) {
+				System.out.println(e.getMessage()); // 0으로 나눌 수 없습니다.
+				e.getNumberInfo();
+			}      
+		}
+	}
