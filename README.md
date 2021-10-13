@@ -1349,3 +1349,12 @@ throw 구문을 통해 직접 예외를 직접 발생 시킬 수 있다.
 	}
 
 ![예외종류](https://user-images.githubusercontent.com/81665608/137113213-0a745e12-c64b-4984-b37b-da4280769f26.png)
+
+### 18.6 예외 직접 만들기
+checked 예외 : RuntimeException을 제외한 Exception의 하위 클래스 <br>
+unchekced 예외 : RuntimeException의 하위 클래스<br>
+
+예외를 만들기 전에 해야 할 것은 자신의 예외를 checked로 할 것인가? unchecked로 할 것인가를 정해야 한다.<br>
+API 쪽에서 예외를 던졌을 때 API 사용자 쪽에서 예외 상황을 복구 할 수 있다면 checked 예외를 사용한다. checked 예외는 사용자에게 문제를 해결할 기회를 주는 것이면서 예외처리를 강제하는 것이다. <br>
+
+사용자가 API의 사용방법을 어겨서 발생하는 문제거나 예외 상황이 이미 발생한 시점에서 그냥 프로그램을 종료하는 것이 덜 위험 할 때 unchecked를 사용한다. 
