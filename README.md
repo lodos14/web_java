@@ -1636,16 +1636,171 @@ API 쪽에서 예외를 던졌을 때 API 사용자 쪽에서 예외 상황을 �
 	}
 
 
+## 22. Generic
 
+제네릭은 클래스 내부에서 사용할 데이터 타입을 외부에서 지정하는 기법
 
+	class Person<T>{ // 제네릭은 <T>로 구현
+	    public T info;
+	}
 
+	public class GenericApp {
 
+	    public static void main(String[] args) {
+		Person<String> p1 = new Person<String>(); // <String> 데이터 타입을 String로 정하겠다.
+		Person<StringBuilder> p2 = new Person<StringBuilder>(); // <StringBuilder> 데이터 타입을 StringBuilder로 정하겠다.
+	    }
+	}
 
+### 22.1 사용이유
 
+ 컴파일 언어의 기본은 모든 에러는 컴파일이 발생할 수 있도록 유도해야 한다는 것이다. 런타임은 실제로 애플리케이션이 동작하고 있는 상황이기 때문에 런타임에 발생하는 에러는 항상 심각한 문제를 초래할 수 있기 때문이다. 타입에 따른 에러를 컴파일 단계에서 발생할 수 있도록 하기위해 제네릭을 사용한다.
 
+- 컴파일 단계에서 오류가 검출된다.
+- 중복의 제거와 타입 안전성을 동시에 추구할 수 있게 되었다.
 
+### 22.2 기본예제
 
+	class StudentInfo{
+		public int grade;
+		StudentInfo(int grade){ this.grade = grade; }
+	}
+	class EmployeeInfo{
+		public int rank;
+		EmployeeInfo(int rank){ this.rank = rank; }
+	}
+	class Person2<T>{
+		public T info;
+		Person2(T info){ this.info = info; }
+	}
+	public class GenericApp2 {
+		public static void main(String[] args) {
+			// EmployeeInfo의 새로운 객체를 EmployeeInfo 타입의 인자를 새로운 Person2 객체에 전달해서 인스턴스 p1 생성
+			Person2<EmployeeInfo> p1 = new Person2<EmployeeInfo>(new EmployeeInfo(1));
+			// p1 객체에 있는  info를 EmployeeInfo 타입의 ei에게도 참조시킴
+			EmployeeInfo ei = p1.info;
+			System.out.println(ei.rank); // 1
+		}
+	 }
 
+### 22.3 복수의 제네릭
 
+클래스 내에서 여러개의 제네릭을 사용하는 경우
 
+	class EmployeeInfo{
+		public int rank;
+		EmployeeInfo(int rank){ this.rank = rank; }
+	}
+	class Person<T, S>{ // 제네릭은 참조형 데이터만 올 수 있다.
+						// 원시 데이터 형을 사용할 경우 래퍼(wrapper) 클래스를 사용해서 우회해야 한다.
+		public T info;
+		public S id;
+		Person(T info, S id){ 
+			this.info = info; 
+			this.id = id;
+		}
+	}
+	public class GenericDemo {
+		public static void main(String[] args) {
+			Integer id = new Integer(1) // wrapper 클래스 사용
+			Person<EmployeeInfo, Integer> p1 = new Person<EmployeeInfo, Integer>(new EmployeeInfo(1), id);
+		}
+	}
 
+### 22.4 제네릭 생략, 함수 단위 제네릭
+
+	class EmployeeInfo{
+		public int rank;
+		EmployeeInfo(int rank){ this.rank = rank; }
+	}
+	class Person2<T>{
+		public T info;
+		Person2(T info){ this.info = info; }
+		
+		public <U> void printInfo(U info) { // 함수 단위에서 제네릭
+			System.out.println(info);
+		}
+	}
+	public class GenericApp2 {
+		public static void main(String[] args) {	
+			Person2 p1 = new Person2(new EmployeeInfo(1)); // 자바는 제네릭을 표기하지 않아도 어떤 타입인지 안다. (생략가능)
+			EmployeeInfo ei = (EmployeeInfo)p1.info; // 근데 직접적으로 꺼내쓸 때는 형변환 해줘야 된다.
+			System.out.println(ei.rank); // 1
+			// p1.<EmployeeInfo>printInfo(ei.rank) // 1
+			p1.printInfo(ei.rank); // 1    함수도 제네릭 생략가능
+		}
+	 }
+
+### 22.5 제네릭의 제한
+
+제네릭에 올 수 있는 타입을 제한할 수 있다. 모든 데이터 타입이 오는 것을 막고 필요한것만 사용
+
+<strong>extends</strong>
+
+	abstract class Info {
+		public abstract int getLevel();
+	}
+
+	class EmployeeInfo2 extends Info { // Info를 상속받음
+		public int rank;
+
+		EmployeeInfo2(int rank) {
+			this.rank = rank;
+		}
+
+		public int getLevel() {
+			return this.rank;
+		}
+	}
+
+	class Person3<T extends Info> { // Info와 그 자식의 데이터 타입만 제네릭으로 들어올 수 있다.
+		public T info;
+
+		Person3(T info) {
+			this.info = info;
+			info.getLevel(); // <T extends Info>를 하면 내부에 EmployeeInfo2 안에있는 함수도 사용 가능
+		}
+	}
+
+	public class GenericApp3 {
+		public static void main(String[] args) {
+			Person3 p1 = new Person3(new EmployeeInfo2(1));
+			// 밑에 문장은 에러
+			// Person3<String> p2 = new Person3<String>("부장");
+		}
+	}
+
+extends는 상속(extends)뿐 아니라 구현(implements)의 관계에서도 사용할 수 있다.
+
+	interface Info {
+		public abstract int getLevel();
+	}
+
+	class EmployeeInfo2 extends Info { // Info를 상속받음
+		public int rank;
+
+		EmployeeInfo2(int rank) {
+			this.rank = rank;
+		}
+
+		public int getLevel() {
+			return this.rank;
+		}
+	}
+
+	class Person3<T extends Info> { // Info와 그 자식의 데이터 타입만 제네릭으로 들어올 수 있다.
+		public T info;
+
+		Person3(T info) {
+			this.info = info;
+			info.getLevel(); // <T extends Info>를 하면 내부에 EmployeeInfo2 안에있는 함수도 사용 가능
+		}
+	}
+
+	public class GenericApp3 {
+		public static void main(String[] args) {
+			Person3 p1 = new Person3(new EmployeeInfo2(1));
+			// 밑에 문장은 에러
+			// Person3<String> p2 = new Person3<String>("부장");
+		}
+	}
