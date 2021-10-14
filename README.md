@@ -924,6 +924,9 @@ final 메소드는 final 변수 만큼 사용 빈도가 높지는 않다. 아래
 		}
 	}
 
+인터페이스에 필드를 작성하는 것은 public final stati이 암시됨<br>
+
+
 인터페이스는 상속이 된다.
 
 	interface I3{
@@ -1458,4 +1461,96 @@ API 쪽에서 예외를 던졌을 때 API 사용자 쪽에서 예외 상황을 �
 				e.printStackTrace();
 			}
 		}
+	}
+
+## 20. enum
+
+열거형은 연관된 값들을 저장한다. 또 그 값들이 변경되지 않도록 보장한다. 뿐만 아니라 열거형 자체가 클래스이기 때문에 열거형 내부에 생성자, 필드, 메소드를 가질 수 있어서 단순히 상수가 아니라 더 많은 역할을 할 수 있다.
+
+- 코드가 단순해진다.
+- 인스턴스 생성과 상속을 방지한다.
+- 키워드 enum을 사용하기 때문에 구현의 의도가 열거임을 분명하게 나타낼 수 있다.
+
+### 20.1 기본형태
+
+	/*
+	class fruit{
+		public static final Fruit APPLE = new Fruit();
+		public static final Fruit PEACH = new Fruit();
+		public static final Fruit BANANA = new Fruit();
+	}
+	*/
+	// 열거형
+	enum Fruit { // 위에 fruit와 같다.
+		APPLE, PEACH, BANANA
+	}
+
+	enum Company {
+		GOOGLE, APPLE, ORACLE
+	}
+
+	public class EnumApp {
+
+		public static void main(String[] args) {
+
+			Fruit type = Fruit.APPLE;
+
+			switch (type) { // switch문이 APPLE 타입이 Fruit라는 것을 안다.
+			case APPLE:
+				System.out.println(57 + " kcal");
+				break;
+			case PEACH:
+				System.out.println(34 + "kcal");
+				break;
+			case BANANA:
+				System.out.println(93 + " kcal");
+			}
+
+		}
+
+	}
+	
+### 20.2 enum 활용
+
+	enum Fruit { 
+		APPLE("red"), PEACH("pink"), BANANA("yellow"); // 인자가 생성자 매개변수로 들어감
+		private String color;
+
+		public String getColor() {
+			return this.color;
+		}
+		Fruit(String color) { // 변수가 3개이므로 3번 실행됨
+			System.out.println("Call Constructor " + this);
+			this.color =  color;
+		}
+	}
+
+	enum Company {
+		GOOGLE, APPLE, ORACLE
+	}
+
+	public class EnumApp {
+		public static void main(String[] args) {
+		
+			Fruit type = Fruit.APPLE;
+			switch (type) { // switch문이 APPLE 타입이 Fruit라는 것을 안다.
+			case APPLE:
+				System.out.println(57 + " kcal, color : "+Fruit.APPLE.getColor()); // 57 kcal, color : red
+				break;
+			case PEACH:
+				System.out.println(34 + "kcal, color : "+Fruit.PEACH.getColor());
+				break;
+			case BANANA:
+				System.out.println(93 + " kcal, color : "+Fruit.BANANA.getColor());
+				
+			}
+		}
+	}
+	
+	for(Fruit2 f : Fruit2.values()) {
+			System.out.println(f);
+		}
+				//APPLE
+				//PEACH
+				//BANANA
 	}
