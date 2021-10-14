@@ -1576,7 +1576,7 @@ API 쪽에서 예외를 던졌을 때 API 사용자 쪽에서 예외 상황을 �
 
 		public static void runReference(){
 		A a = new A(1); // 인스턴스 같은 경우 a에 담기는게 아니라 인스턴스 위치를 가리킴 (참조 reference)
-		A b = a;        // b도 인스턴스를 가리킴(참조 reference)
+		A b = a;        // b도 a가 가리키는 인스턴스를 가리킴(참조 reference)
 		b.id = 2;      // 그래서 b를 바꾸면 인스턴스 자체를 바꿈
 		System.out.println("runReference, "+a.id); 
 		}
