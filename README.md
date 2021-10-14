@@ -1474,7 +1474,7 @@ API 쪽에서 예외를 던졌을 때 API 사용자 쪽에서 예외 상황을 �
 ### 20.1 기본형태
 
 	/*
-	class fruit{
+	class fruit{  // 변수의 값이 겹치는 경우를 방지하기 위한 독립적인 값을 가지는 방법
 		public static final Fruit APPLE = new Fruit();
 		public static final Fruit PEACH = new Fruit();
 		public static final Fruit BANANA = new Fruit();
@@ -1554,3 +1554,98 @@ API 쪽에서 예외를 던졌을 때 API 사용자 쪽에서 예외 상황을 �
 				//PEACH
 				//BANANA
 	}
+
+## 21. 참조(reference)
+
+변수에 담겨있는 데이터가 기본형이면 그 안에는 실제 데이터가 들어있고, 기본형이 아니면 변수 안에는 데이터에 대한 참조 방법이 들어있다고 할 수 있다. 변수가 값을 가리킨다. 가리키는 변수가 많아도 저장된 데이터의 크기는 커지지 않으므로 메모리 저장을 줄일 수 있다. 
+
+	class A{
+		public int id;
+		A(int id){
+		this.id = id;
+		}
+	}
+	public class ReferenceApp {
+
+		public static void runValue(){
+		int a = 1;
+		int b = a; // 1 이 복사해서 b에 담김
+		b = 2;
+		System.out.println("runValue, "+a);  
+		}
+
+		public static void runReference(){
+		A a = new A(1); // 인스턴스 같은 경우 a에 담기는게 아니라 인스턴스 위치를 가리킴 (참조 reference)
+		A b = a;        // b도 인스턴스를 가리킴(참조 reference)
+		b.id = 2;      // 그래서 b를 바꾸면 인스턴스 자체를 바꿈
+		System.out.println("runReference, "+a.id); 
+		}
+
+		public static void main(String[] args) {
+		runValue(); // 1
+		runReference(); // 2
+		}
+
+	}
+
+## 21.1 참조 데이터 형과 매개 변수
+
+	class A{
+		public int id;
+		A(int id){
+			this.id = id;
+		}
+	}
+	public class ReferenceApp {
+
+		static void _value(int b){
+			b = 2;
+		}
+
+		public static void runValue(){
+			int a = 1;
+			_value(a); // int b = a  -> 1이 복사돼서 b에 담김 -> b에 다시 2가 담김
+			System.out.println("runValue, "+a); // 원본은 건들지 않음
+		}
+
+		static void _reference1(A b){
+			b = new A(2);
+		}
+
+		public static void runReference1(){
+			A a = new A(1);
+			_reference1(a); // A b = a -> a가 가리키는걸 b도 가리킴 -> b가 A(1)을 가리키다 A(2)를 가리킴
+			System.out.println("runReference1, "+a.id);     
+		}
+
+		static void _reference2(A b){
+			b.id = 2;
+		}
+
+		public static void runReference2(){
+			A a = new A(1);
+			_reference2(a); // A b = a -> a가 가리키는걸 b가 가리킴 -> b가 가리키는 id값을 2로 바꿈
+			System.out.println("runReference2, "+a.id);     // -> b가 가리키는게 a도 가리키는거니 a.id도 바뀜
+		}
+
+		public static void main(String[] args) {
+			runValue(); // runValue, 1
+			runReference1(); // runReference1, 1
+			runReference2(); // runReference2, 2
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
