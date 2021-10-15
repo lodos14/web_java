@@ -1857,7 +1857,7 @@ extends는 상속(extends)뿐 아니라 구현(implements)의 관계에서도 �
 메소드 iterator는 인터페이스 Collection에 정의되어 있다. 인터페이스 iterator는 아래 3개의 메소드를 구현하도록 강제하고 있는데 각각의 역할은 아래와 같다.
 
 - boolean hasNext() =읽을 요소가 남아있는지 체크
-- Object next() = 다음요소를 읽어온다. 호출하기 전 hasNext로 요소 있나 체크
+- Object next() = 다음요소를 읽어온다. 
 - remove() = next()로 읽어온 요소삭제한다. 반드시 next로 먼저 읽어와야한다(선택적 기능)
 
 1. iterator은 일회용이다. 
