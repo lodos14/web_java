@@ -1804,3 +1804,187 @@ extends는 상속(extends)뿐 아니라 구현(implements)의 관계에서도 �
 			// Person3<String> p2 = new Person3<String>("부장");
 		}
 	}
+
+## 23. Collection framework
+
+배열의 몇가지 불편한 점을 보완하는 프레임워크<br>
+
+컬렉션즈 프래임워크라는 것은 다른 말로는 컨테이너라고도 부른다. 즉 값을 담는 그릇이라는 의미이다. 그런데 그 값의 성격에 따라서 컨테이너의 성격이 조금씩 달라진다. 자바에서는 다양한 상황에서 사용할 수 있는 다양한 컨테이너를 제공하는데 이것을 컬렉션즈 프래임워크라고 부른다.
+
+![컬렉션즈](https://user-images.githubusercontent.com/81665608/137536633-efab992f-3152-48c1-8876-75bcc6fd4776.png)
+
+### 23.1 ArrayList
+
+배열의 크기를 미리 지정하지 않고 사용 가능
+
+	public class ArrauListApp {
+
+		public static void main(String[] args) {
+		
+			// 일반 배열을 사용할 경우
+			String[] arrayObj = new String[2];
+			arrayObj[0] = "one";
+			arrayObj[1] = "two";
+			//arrayObj[2] = "three"; // 크기를 넘어서는 범위는 오류 발생
+
+			for(int i = 0; i<arrayObj.length; i++) {
+				System.out.println(arrayObj[i]);
+			}
+			
+			// ArrayList 를 사용할 경우
+			
+			ArrayList al1 = new ArrayList();
+			al1.add("one");  // ArrayList는 Object 형태로 데이터를 받음
+			al1.add("two");
+			al1.add("three");
+			for(int i = 0; i < al1.size(); i++ ) {
+				String value = (String)al1.get(i); // Object 타입을 저장할 형태로 형변환
+				System.out.println(value);
+			}
+
+			ArrayList<String> al2 = new<String> ArrayList();
+			al2.add("one");  
+			al2.add("two");
+			al2.add("three");
+			for(int i = 0; i < al2.size(); i++ ) {
+				String value = al2.get(i);  // 제네릭으로 타입을 지정하면 형변환을 안해도 된다.
+				System.out.println(value);
+			}	
+		}
+	}
+	
+### 23.2 iterator
+메소드 iterator는 인터페이스 Collection에 정의되어 있다. 인터페이스 iterator는 아래 3개의 메소드를 구현하도록 강제하고 있는데 각각의 역할은 아래와 같다.
+
+- boolean hasNext() =읽을 요소가 남아있는지 체크
+- Object next() = 다음요소를 읽어온다. 호출하기 전 hasNext로 요소 있나 체크
+- remove() = next()로 읽어온 요소삭제한다. 반드시 next로 먼저 읽어와야한다(선택적 기능)
+
+1. iterator은 일회용이다. 
+2. List와 set 둘 다 사용가능
+
+	public class IteratorApp {
+
+		public static void main(String[] args) {
+			
+			// ArrayList나 Hashset는 Collection 인터페이스를 구현하고 있기 때문에
+			// ArrayList나 Hashset 데이터 타입으로 Collection 가능하다.
+			Collection<Integer> A = new ArrayList<Integer>();
+
+			A.add(2);
+			A.add(1);
+			A.add(3);
+			
+			// Iterator 는 인터페이스다.
+			// Iterator는 Collection 아래 그 기능을 강제하기 때문에 상관없이 실행가능
+			Iterator<Integer> hi = A.iterator();
+
+			while(hi.hasNext()) {
+				System.out.println(hi.next());
+			}
+		}
+	}
+	
+### 23.3 List와 Set의 차이점
+
+set은 중복을 허용하지 않는다.
+
+	public class ListSetApp {
+
+		public static void main(String[] args) {
+			ArrayList<String> al = new ArrayList<String>();
+			al.add("one");
+			al.add("two");
+			al.add("two");
+			al.add("three");
+			al.add("three");
+			al.add("five");
+			Iterator ai = al.iterator();
+			while(ai.hasNext()){
+				System.out.println(ai.next());
+				/*
+					one
+					two
+					two
+					three
+					three
+					five
+				 */
+			}
+
+			HashSet<String> hs = new HashSet<String>();
+			hs.add("one");
+			hs.add("two");
+			hs.add("two");
+			hs.add("three");
+			hs.add("three");
+			hs.add("five");
+			Iterator hi = hs.iterator();
+			while(hi.hasNext()){
+				System.out.println(hi.next());
+				/*
+					one
+					two
+					three
+					five
+				 */
+			}     
+		}
+	}
+
+## 23.4 set
+
+Set은 한국어로 집합이라는 뜻이다. 여기서의 집합이란 수학의 집합과 같은 의미다.
+
+값이 순서가 보장되지 않는다.
+
+	public class SetApp {
+
+		public static void main(String[] args) {
+			HashSet<Integer> A = new HashSet<Integer>();
+			A.add(1);
+			A.add(2);
+			A.add(3);
+
+			HashSet<Integer> B = new HashSet<Integer>();
+			B.add(3);
+			B.add(4);
+			B.add(5);
+
+			HashSet<Integer> C = new HashSet<Integer>();
+			C.add(1);
+			C.add(2);
+
+			// 부분집합
+			System.out.println(A.containsAll(B)); // false  B가 A에 모두 포함 되는지 여부
+			System.out.println(A.containsAll(C)); // true   C가 A에 모두 포함 되는지 여부
+
+			//A.addAll(B); // A와 B를 합쳐서 A를 만든다.(합집합)
+			//A.retainAll(B); // 공통적으로 가지는 원소. (교집합)
+			//A.removeAll(B); // A에서 B에 있는 원소를 뺸다. (차집합)
+
+			Iterator hi = A.iterator();
+			while(hi.hasNext()){
+				System.out.println(hi.next());
+			}
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
