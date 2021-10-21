@@ -1932,7 +1932,7 @@ set은 중복을 허용하지 않는다.
 		}
 	}
 
-## 23.4 set
+### 23.4 set
 
 Set은 한국어로 집합이라는 뜻이다. 여기서의 집합이란 수학의 집합과 같은 의미다.
 
@@ -1970,16 +1970,114 @@ Set은 한국어로 집합이라는 뜻이다. 여기서의 집합이란 수학�
 		}
 	}
 
+### 23.5 Map
+
+Map 컬렉션은 key와 value의 쌍으로 값을 저장하는 컬렉션이다.
+
+<strong>기본형태</strong>
+
+Map에서 데이터를 추가할 때 사용하는 API는 put이다. put의 첫번째 인자는 값의 key이고, 두번째 인자는 key에대한 값이다. key를 이용해서 값을 가져올 수 있다.
+
+	HashMap<String, Integer> a = new HashMap<String, Integer>();
+		  // key     value
+	a.put("one", 1);
+	a.put("two", 2);
+	a.put("three", 3);
+
+	System.out.println(a.get("one")); // 1
+	System.out.println(a.get("two")); // 2
+	System.out.println(a.get("three")); // 3
 
 
+<strong>map의 열거</strong>
+
+메소드 entrySet은 Map의 데이터를 담고 있는 Set을 반환한다. 반환한 Set의 값이 사용할 데이터 타입은 Map.Entry이다. Map.Entry는 인터페이스인데 아래와 같은 API를 가지고 있다.
+
+- getKey
+- getValue
+
+위의 API를 이용해서 Map의 key, value를 조회할 수 있다.
+
+	public class MapApp1 {
+
+		public static void main(String[] args) {
+
+			HashMap<String, Integer> a = new HashMap<String, Integer>();
+				  // key     value
+			a.put("one", 1);
+			a.put("two", 2);
+			a.put("three", 3);
+
+			System.out.println(a.get("one")); // 1
+			System.out.println(a.get("two")); // 2
+			System.out.println(a.get("three")); // 3
+
+			iteratorUsingForEach(a);
+			iteratorUsingIterator(a);
+
+		}
+		// 기본형태
+		static void iteratorUsingForEach(HashMap map) {
+			Set<Map.Entry<String, Integer>> entries = map.entrySet();
+			for (Map.Entry<String, Integer> entry : entries) {
+				System.out.println(entry.getKey() + " : " + entry.getValue());
+			}
+		}
+		// Iterator를 사용하는경우
+		static void iteratorUsingIterator(HashMap map){
+			Set<Map.Entry<String, Integer>> entries = map.entrySet();
+			Iterator<Map.Entry<String, Integer>> i = entries.iterator();
+			while(i.hasNext()){
+				Map.Entry<String, Integer> entry = i.next();
+				System.out.println(entry.getKey()+" : "+entry.getValue());
+			}
+		}
+	}
 
 
+<strong>정렬</strong>
 
+Collections.sort()
 
+	class Computer implements Comparable{  // sort를 사용하기 위해 Comparable를 구현해야함
+		int serial;
+		String owner;
+		Computer(int serial, String owner){
+			this.serial = serial;
+			this.owner = owner;
+		}
+		public int compareTo(Object o) { // 인스턴스 강제
+			// 메소드 sort를 실행하면 내부적으로 compareTo를 실행하고
+			// 그 결과에 따라서 객체의 선후 관계를 판별하게 된다.
+			return this.serial - ((Computer)o).serial; // 객체별 serial 비교 1 0 -1 
+		}
+		public String toString(){
+			return serial+" "+owner;
+		}
+	}
 
+	public class MapApp2 {
 
+		public static void main(String[] args) {
+			List<Computer> computers = new ArrayList<Computer>();
+			computers.add(new Computer(500, "egoing"));
+			computers.add(new Computer(200, "leezche"));
+			computers.add(new Computer(3233, "graphittie"));
 
+			Iterator i = computers.iterator();
+			System.out.println("before");
+			while(i.hasNext()){
+				System.out.println(i.next());
+			}
+			Collections.sort(computers);
+			System.out.println("\nafter");
+			i = computers.iterator();
+			while(i.hasNext()){
+				System.out.println(i.next());
+			}
+		}
 
+	}
 
 
 
