@@ -1776,7 +1776,7 @@ extends는 상속(extends)뿐 아니라 구현(implements)의 관계에서도 �
 		public abstract int getLevel();
 	}
 
-	class EmployeeInfo2 extends Info { // Info를 상속받음
+	class EmployeeInfo2 implements Info { // Info를 상속받음
 		public int rank;
 
 		EmployeeInfo2(int rank) {
